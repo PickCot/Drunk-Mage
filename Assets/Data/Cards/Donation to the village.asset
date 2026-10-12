@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5308a8fbd0aac854289f18b7ac163b14, type: 3}
+  m_Name: Donation to the village
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  <Description>k__BackingField: Donate 1 coin to everyone.
+  <Mana>k__BackingField: 2
+  <MoneyCost>k__BackingField: 0
+  <Image>k__BackingField: {fileID: 0}
+  <ManualTargetEffect>k__BackingField:
+    rid: -2
+  <OtherEffects>k__BackingField:
+  - <TargetMode>k__BackingField:
+      rid: 4662481539333619786
+    <Effect>k__BackingField:
+      rid: 4887271331913531467
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4662481539333619786
+      type: {class: AllEnemiesTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4887271331913531467
+      type: {class: GiveMoneyEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 1

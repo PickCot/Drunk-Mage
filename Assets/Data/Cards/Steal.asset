@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5308a8fbd0aac854289f18b7ac163b14, type: 3}
+  m_Name: Steal
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  <Description>k__BackingField: Steal 3 coins from target.
+  <Mana>k__BackingField: 1
+  <MoneyCost>k__BackingField: 0
+  <Image>k__BackingField: {fileID: 21300000, guid: 25246a0214d01724aa4a9ed82120bb1f, type: 3}
+  <ManualTargetEffect>k__BackingField:
+    rid: 4887271331913531466
+  <OtherEffects>k__BackingField: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4887271331913531466
+      type: {class: StealMoneyEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 3
