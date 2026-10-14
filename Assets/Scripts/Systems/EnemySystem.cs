@@ -21,10 +21,10 @@ public class EnemySystem : Singleton<EnemySystem>
 
     public void Setup(List<EnemyData> enemyDatas)
     {
-        foreach (var enemyData in enemyDatas)
-        {
-            enemyBoardView.AddEnemy(enemyData);
-        }
+        //foreach (var enemyData in enemyDatas)
+        //{
+        //    enemyBoardView.AddEnemy(enemyData);
+        //}
     }
 
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)

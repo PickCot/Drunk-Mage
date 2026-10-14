@@ -10,7 +10,7 @@ public class MatchSetupSystem : MonoBehaviour
     private void Start()
     {
         //HeroSystem.Instance.Setup(heroData);
-        EnemySystem.Instance.Setup(enemyDatas);
+        //EnemySystem.Instance.Setup(enemyDatas);
         //CardSystem.Instance.Setup(heroData.Deck);
         CardSystem.Instance.Setup(playerDeck);
 

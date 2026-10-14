@@ -14,15 +14,24 @@ public class CombatantView : MonoBehaviour
     public int MaxReputation { get; private set; }
     public int CurrentReputation { get; private set; }
 
+    public int MaxHealth { get; private set; }
+    public int CurrentHealth { get; private set; }
 
-    protected void SetupBase(int health, int reputation, Sprite image)
+
+    protected void SetupBase(int wealth, int reputation, Sprite image)
     {
-        MaxWealth = CurrentWealth = health;
+        MaxWealth = CurrentWealth = wealth;
         MaxReputation = 5;
         CurrentReputation = reputation;
+
         spriteRenderer.sprite = image;
+
+        MaxHealth = 10;
+        CurrentHealth = 10;
+
         UpdateWealthText();
         UpdateReputationText(0);
+        UpdateHealthText();
     }
 
     private void UpdateWealthText()
@@ -39,7 +48,7 @@ public class CombatantView : MonoBehaviour
         {
             repText.text = "Reputation: " + CurrentReputation /*+ "[ --" + change + "]"*/;
         }
-            
+
     }
 
     public void Damage(int damageAmount)
@@ -82,6 +91,26 @@ public class CombatantView : MonoBehaviour
         }
     }
 
+    public void DealDamage(int amount)
+    {
+        CurrentHealth = Mathf.Max(
+            0,
+            CurrentHealth - amount
+        );
+
+        UpdateHealthText();
+    }
+
+    public void Heal(int amount)
+    {
+        CurrentHealth = Mathf.Min(
+            MaxHealth,
+            CurrentHealth + amount
+        );
+
+        UpdateHealthText();
+    }
+
     public void SetSortingOrder(int order)
     {
         foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>(true))
@@ -100,5 +129,19 @@ public class CombatantView : MonoBehaviour
                 mr.sortingOrder = order + 10;
             }
         }
+    }
+
+    private void UpdateHealthText()
+    {
+        healthText.text =
+            $"HP: {CurrentHealth}/{MaxHealth}";
+    }
+
+    public void SetHealth(int health)
+    {
+        MaxHealth = health;
+        CurrentHealth = health;
+
+        UpdateHealthText();
     }
 }

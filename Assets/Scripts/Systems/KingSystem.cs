@@ -23,11 +23,11 @@ public class KingSystem : Singleton<KingSystem>
 
     private void Start()
     {
-        KingView = KingViewCreator.Instance.CreateKingView(
-            kingData,
-            kingSlot.position,
-            kingSlot.rotation
-        );
+        //KingView = KingViewCreator.Instance.CreateKingView(
+        //    kingData,
+        //    kingSlot.position,
+        //    kingSlot.rotation
+        //);
     }
 
     private void AddKingTaxReaction(EnemyTurnGA enemyTurnGA)
