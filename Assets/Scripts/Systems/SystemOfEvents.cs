@@ -7,7 +7,7 @@ public class SystemOfEvents : MonoBehaviour
 
     private void OnEnable()
     {
-        ActionSystem.SubscribeReaction<EnemyTurnGA>(ApplyRandomEvent, ReactionTiming.POST);
+        //ActionSystem.SubscribeReaction<EnemyTurnGA>(ApplyRandomEvent, ReactionTiming.POST);
     }
 
     private void OnDisable()

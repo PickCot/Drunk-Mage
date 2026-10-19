@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySystem
   enemyBoardView: {fileID: 604576914}
+  currentEnemy: {fileID: 1173377945}
 --- !u!1 &72243568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,7 +1617,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604576912}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b2da2c1cd7ae9c45a7cd7deafed41d9, type: 3}
   m_Name: 
@@ -1716,19 +1717,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchSetupSystem
   playerDeck:
-  - {fileID: 11400000, guid: 4169bc4bede96ea4a8a2ccd70438d644, type: 2}
-  - {fileID: 11400000, guid: f0f42007638d1dd4db95ef8824103953, type: 2}
-  - {fileID: 11400000, guid: 9144ec04a56dc704288671f4ed32f4ac, type: 2}
-  - {fileID: 11400000, guid: 9144ec04a56dc704288671f4ed32f4ac, type: 2}
-  - {fileID: 11400000, guid: f0f42007638d1dd4db95ef8824103953, type: 2}
-  - {fileID: 11400000, guid: 1c14c5070f8ed2f4fac8d17d4bcdbd5b, type: 2}
-  - {fileID: 11400000, guid: 1c14c5070f8ed2f4fac8d17d4bcdbd5b, type: 2}
-  - {fileID: 11400000, guid: 1c14c5070f8ed2f4fac8d17d4bcdbd5b, type: 2}
-  - {fileID: 11400000, guid: 1e2752ac4eb6a4e468a66e3b2ad87708, type: 2}
-  - {fileID: 11400000, guid: 1e2752ac4eb6a4e468a66e3b2ad87708, type: 2}
-  - {fileID: 11400000, guid: 4464229003c0a3a448cc5cda3d0ae4ca, type: 2}
-  - {fileID: 11400000, guid: 4464229003c0a3a448cc5cda3d0ae4ca, type: 2}
-  - {fileID: 11400000, guid: 4464229003c0a3a448cc5cda3d0ae4ca, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
+  - {fileID: 11400000, guid: abe5b8d8163662c439ca3659ffb56b95, type: 2}
   enemyDatas:
   - {fileID: 11400000, guid: 42e00956188ff4b43b9536bae6b7fc33, type: 2}
   - {fileID: 11400000, guid: 51e791c6f67fdcd419ef4e4739f7da57, type: 2}
@@ -2681,6 +2680,8 @@ Transform:
   - {fileID: 1293998750}
   - {fileID: 2039736405}
   - {fileID: 815044920}
+  - {fileID: 1159162775}
+  - {fileID: 1575081303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001817652
@@ -3344,6 +3345,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandView
   splineContainer: {fileID: 1945658465}
+--- !u!1 &1159162774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1159162775}
+  - component: {fileID: 1159162776}
+  m_Layer: 0
+  m_Name: DelayedEffectSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1159162775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159162774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 954062029}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1159162776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159162774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717d7d9227784f543aada8d062ef3033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DelayedEffectSystem
 --- !u!1 &1173377942
 GameObject:
   m_ObjectHideFlags: 0
@@ -3724,6 +3769,7 @@ GameObject:
   - component: {fileID: 1413837536}
   - component: {fileID: 1413837538}
   - component: {fileID: 1413837537}
+  - component: {fileID: 1413837539}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3775,6 +3821,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 30
+--- !u!114 &1413837539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413837535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f393aa7eada39304f962fb2c84fea7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DelayedEffectTest
 --- !u!1 &1430744574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3883,7 +3941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1507615367
 Transform:
   m_ObjectHideFlags: 0
@@ -4019,6 +4077,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManaSystem
   manaUI: {fileID: 449648003}
+--- !u!1 &1575081302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575081303}
+  - component: {fileID: 1575081305}
+  - component: {fileID: 1575081304}
+  m_Layer: 0
+  m_Name: HealthDamageSytem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1575081303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575081302}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 954062029}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1575081304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575081302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09b53a33a86dda44ba901ca5e738f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthDamageTest
+  enemyHealth: {fileID: 1173377945}
+--- !u!114 &1575081305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575081302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4910214b6ac323648bf7afffbad8ff73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthDamageSystem
 --- !u!1 &1603974907
 GameObject:
   m_ObjectHideFlags: 0

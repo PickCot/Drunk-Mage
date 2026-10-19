@@ -6,9 +6,10 @@ public class DealDamageGA : GameAction
     public int Amount{get; set;}
     public List<CombatantView> Targets { get; set; }
 
-    public DealDamageGA(int amount, List<CombatantView> combatantViews)
+    public DealDamageGA(int amount, List<CombatantView> combatantViews /*CombatantView enemy*/)
     {
         Amount = amount;
         Targets = new(combatantViews);
+        //Targets.Add(enemy);
     }
 }

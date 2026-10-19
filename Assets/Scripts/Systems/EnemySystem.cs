@@ -7,6 +7,9 @@ public class EnemySystem : Singleton<EnemySystem>
     [SerializeField] private EnemiesBoardView enemyBoardView;
     public List<EnemyView> Enemies => enemyBoardView.EnemyViews;
 
+    [SerializeField] private Health currentEnemy;
+    public Health CurrentEnemy => currentEnemy;
+
     void OnEnable()
     {
         ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);

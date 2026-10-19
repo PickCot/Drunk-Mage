@@ -90,15 +90,47 @@ public class CardSystem : Singleton<CardSystem>
     //    }
     //}
 
+    //private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
+    //{
+    //    hand.Remove(playCardGA.Card);
+    //    CardView cardView = handView.RemoveCard(playCardGA.Card);
+    //    yield return DiscardCard(cardView);
+
+    //    SpendManaGA spendManaGA = new(playCardGA.Card.Mana);
+    //    ActionSystem.Instance.AddReaction(spendManaGA);
+
+    //    if (playCardGA.Card.ManualTargetEffect != null)
+    //    {
+    //        if (playCardGA.ManualTarget == null)
+    //        {
+    //            Debug.LogError("Manual target is null");
+    //            yield break;
+    //        }
+    //        PerformEffectGA performEffectGA = new(playCardGA.Card.ManualTargetEffect, new() { playCardGA.ManualTarget });
+    //        ActionSystem.Instance.AddReaction(performEffectGA);
+    //    }
+
+    //    foreach (var effectWrapper in playCardGA.Card.OtherEffects)
+    //    {
+    //        List<CombatantView> targets = effectWrapper.TargetMode.GetTargets();
+    //        PerformEffectGA performEffectGA = new(effectWrapper.Effect, targets);
+    //        ActionSystem.Instance.AddReaction(performEffectGA);
+    //    }
+    //}
+
+
     private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
     {
         hand.Remove(playCardGA.Card);
+
         CardView cardView = handView.RemoveCard(playCardGA.Card);
         yield return DiscardCard(cardView);
 
+        // Mana is spent immediately
         SpendManaGA spendManaGA = new(playCardGA.Card.Mana);
         ActionSystem.Instance.AddReaction(spendManaGA);
 
+        // Manual target effect
         if (playCardGA.Card.ManualTargetEffect != null)
         {
             if (playCardGA.ManualTarget == null)
@@ -106,17 +138,38 @@ public class CardSystem : Singleton<CardSystem>
                 Debug.LogError("Manual target is null");
                 yield break;
             }
-            PerformEffectGA performEffectGA = new(playCardGA.Card.ManualTargetEffect, new() { playCardGA.ManualTarget });
-            ActionSystem.Instance.AddReaction(performEffectGA);
+
+            PerformEffectGA performEffectGA = new(
+                playCardGA.Card.ManualTargetEffect,
+                new List<CombatantView> { playCardGA.ManualTarget }
+            );
+
+            DelayedEffectSystem.Instance.AddEffect(performEffectGA);
         }
 
+        // Automatic target effects
         foreach (var effectWrapper in playCardGA.Card.OtherEffects)
         {
-            List<CombatantView> targets = effectWrapper.TargetMode.GetTargets();
-            PerformEffectGA performEffectGA = new(effectWrapper.Effect, targets);
-            ActionSystem.Instance.AddReaction(performEffectGA);
+            List<CombatantView> targets =
+                effectWrapper.TargetMode.GetTargets();
+
+            if (targets == null && effectWrapper.Effect is not DealHealthDamageEffect)
+            {
+                Debug.LogError(
+                    $"Card '{playCardGA.Card.Title}' has no targets!"
+                );
+                continue;
+            }
+
+            PerformEffectGA performEffectGA = new(
+                effectWrapper.Effect,
+                targets
+            );
+
+            DelayedEffectSystem.Instance.AddEffect(performEffectGA);
         }
     }
+
 
     private IEnumerator DrawCard()
     {
@@ -143,14 +196,30 @@ public class CardSystem : Singleton<CardSystem>
     }
 
 
-    private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
-    {
-        DiscardAllCardsGA discardAllCardsGA = new();
-        ActionSystem.Instance.AddReaction(discardAllCardsGA);
-    }
+    //private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
+    //{
+    //    DiscardAllCardsGA discardAllCardsGA = new();
+    //    ActionSystem.Instance.AddReaction(discardAllCardsGA);
+    //}
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.AddReaction(drawCardsGA);
+    }
+
+    private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
+    {
+        // Execute queued card effects first
+        List<GameAction> pendingEffects =
+            DelayedEffectSystem.Instance.TakePendingEffects();
+
+        foreach (GameAction effect in pendingEffects)
+        {
+            ActionSystem.Instance.AddReaction(effect);
+        }
+
+        // Discard remaining cards
+        DiscardAllCardsGA discardAllCardsGA = new();
+        ActionSystem.Instance.AddReaction(discardAllCardsGA);
     }
 }
