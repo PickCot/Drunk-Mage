@@ -165,6 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySystem
   enemyBoardView: {fileID: 604576914}
   currentEnemy: {fileID: 1173377945}
+  playerHealth: {fileID: 1413837538}
+  enemyAttackDamage: 3
 --- !u!1 &72243568
 GameObject:
   m_ObjectHideFlags: 0
@@ -3450,7 +3452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67af961472849934d82340c8fa6277b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 30
+  maxHealth: 3
 --- !u!1 &1256684640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3820,7 +3822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67af961472849934d82340c8fa6277b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 30
+  maxHealth: 3
 --- !u!114 &1413837539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4135,6 +4137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4910214b6ac323648bf7afffbad8ff73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthDamageSystem
+  playerHealth: {fileID: 1413837538}
+  enemyHealth: {fileID: 1173377945}
 --- !u!1 &1603974907
 GameObject:
   m_ObjectHideFlags: 0

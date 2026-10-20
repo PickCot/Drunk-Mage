@@ -20,7 +20,7 @@ MonoBehaviour:
     rid: -2
   <OtherEffects>k__BackingField:
   - <TargetMode>k__BackingField:
-      rid: 3739849608553300042
+      rid: -2
     <Effect>k__BackingField:
       rid: 3739849608553300043
   references:
@@ -28,9 +28,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3739849608553300042
-      type: {class: AllEnemiesTM, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 3739849608553300043
       type: {class: DealHealthDamageEffect, ns: , asm: Assembly-CSharp}
       data:

@@ -33,10 +33,35 @@ public class Card
             cost += ManualTargetEffect.GetMoneyCost(new() { manualTarget });
         }
 
-        foreach (var effectWrapper in OtherEffects)
+        foreach (var wrapper in OtherEffects)
         {
-            List<CombatantView> targets = effectWrapper.TargetMode.GetTargets();
-            cost += effectWrapper.Effect.GetMoneyCost(targets);
+            if (wrapper.Effect == null)
+                continue;
+
+            List<CombatantView> targets = new();
+
+            if (wrapper.Effect.RequiresTargets)
+            {
+                if (wrapper.TargetMode == null)
+                {
+                    Debug.LogError(
+                        $"Card '{Title}' requires a TargetMode!"
+                    );
+                    continue;
+                }
+
+                targets = wrapper.TargetMode.GetTargets();
+
+                if (targets == null || targets.Count == 0)
+                {
+                    Debug.LogError(
+                        $"Card '{Title}' has no valid targets!"
+                    );
+                    continue;
+                }
+            }
+
+            cost += wrapper.Effect.GetMoneyCost(targets);
         }
 
         return cost;

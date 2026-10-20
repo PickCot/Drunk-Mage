@@ -12,10 +12,17 @@ public class HealthView : MonoBehaviour
             return;
 
         health.OnHealthChanged += UpdateHealth;
-        UpdateHealth(
-            health.CurrentHealth,
-            health.MaxHealth
-        );
+        //UpdateHealth(
+        //    health.CurrentHealth,
+        //    health.MaxHealth
+        //);
+    }
+    private void Start()
+    {
+        if (health == null || healthText == null)
+            return;
+
+        UpdateHealth(health.CurrentHealth, health.MaxHealth);
     }
 
     private void OnDisable()

@@ -148,23 +148,54 @@ public class CardSystem : Singleton<CardSystem>
         }
 
         // Automatic target effects
+        //foreach (var effectWrapper in playCardGA.Card.OtherEffects)
+        //{
+        //    List<CombatantView> targets =
+        //        effectWrapper.TargetMode.GetTargets();
+
+        //    if (targets == null && effectWrapper.Effect is not DealHealthDamageEffect)
+        //    {
+        //        Debug.LogError(
+        //            $"Card '{playCardGA.Card.Title}' has no targets!"
+        //        );
+        //        continue;
+        //    }
+
+        //    PerformEffectGA performEffectGA = new(
+        //        effectWrapper.Effect,
+        //        targets
+        //    );
+
+        //    DelayedEffectSystem.Instance.AddEffect(performEffectGA);
+        //}
         foreach (var effectWrapper in playCardGA.Card.OtherEffects)
         {
-            List<CombatantView> targets =
-                effectWrapper.TargetMode.GetTargets();
+            Effect effect = effectWrapper.Effect;
 
-            if (targets == null && effectWrapper.Effect is not DealHealthDamageEffect)
+            List<CombatantView> targets = new();
+
+            if (effect.RequiresTargets)
             {
-                Debug.LogError(
-                    $"Card '{playCardGA.Card.Title}' has no targets!"
-                );
-                continue;
+                if (effectWrapper.TargetMode == null)
+                {
+                    Debug.LogError(
+                        $"Card '{playCardGA.Card.Title}' has no TargetMode!"
+                    );
+                    continue;
+                }
+
+                targets = effectWrapper.TargetMode.GetTargets();
+
+                if (targets == null || targets.Count == 0)
+                {
+                    Debug.LogError(
+                        $"Card '{playCardGA.Card.Title}' has no targets!"
+                    );
+                    continue;
+                }
             }
 
-            PerformEffectGA performEffectGA = new(
-                effectWrapper.Effect,
-                targets
-            );
+            PerformEffectGA performEffectGA = new(effect, targets);
 
             DelayedEffectSystem.Instance.AddEffect(performEffectGA);
         }
@@ -209,7 +240,23 @@ public class CardSystem : Singleton<CardSystem>
 
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
-        // Execute queued card effects first
+        //// Execute queued card effects first
+        //List<GameAction> pendingEffects =
+        //    DelayedEffectSystem.Instance.TakePendingEffects();
+
+        //foreach (GameAction effect in pendingEffects)
+        //{
+        //    ActionSystem.Instance.AddReaction(effect);
+        //}
+
+        //// Discard remaining cards
+        //DiscardAllCardsGA discardAllCardsGA = new();
+        //ActionSystem.Instance.AddReaction(discardAllCardsGA);
+
+        DiscardAllCardsGA discardAllCardsGA = new();
+        ActionSystem.Instance.AddReaction(discardAllCardsGA);
+
+        // Then resolve delayed effects
         List<GameAction> pendingEffects =
             DelayedEffectSystem.Instance.TakePendingEffects();
 
@@ -217,9 +264,5 @@ public class CardSystem : Singleton<CardSystem>
         {
             ActionSystem.Instance.AddReaction(effect);
         }
-
-        // Discard remaining cards
-        DiscardAllCardsGA discardAllCardsGA = new();
-        ActionSystem.Instance.AddReaction(discardAllCardsGA);
     }
 }
