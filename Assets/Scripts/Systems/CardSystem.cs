@@ -23,6 +23,7 @@ public class CardSystem : Singleton<CardSystem>
         ActionSystem.AttachPerformer<PlayCardGA>(PlayCardPerformer);
         ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.PRE);
         ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.AttachPerformer<RiskyDrawGA>(RiskyDrawPerformer);
     }
 
     private void OnDisable()
@@ -32,6 +33,7 @@ public class CardSystem : Singleton<CardSystem>
         ActionSystem.DetachPerformer<PlayCardGA>();
         ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.PRE);
         ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.DetachPerformer<RiskyDrawGA>();
     }
 
     public void Setup(List<CardData> deckData)
@@ -127,8 +129,11 @@ public class CardSystem : Singleton<CardSystem>
         yield return DiscardCard(cardView);
 
         // Mana is spent immediately
-        SpendManaGA spendManaGA = new(playCardGA.Card.Mana);
-        ActionSystem.Instance.AddReaction(spendManaGA);
+        //SpendManaGA spendManaGA = new(playCardGA.Card.Mana);
+        //ActionSystem.Instance.AddReaction(spendManaGA);
+
+        AddDrunkennessGA addDrunkennessGA = new(playCardGA.Card.Mana);
+        ActionSystem.Instance.AddReaction(addDrunkennessGA);
 
         // Manual target effect
         if (playCardGA.Card.ManualTargetEffect != null)
@@ -197,7 +202,15 @@ public class CardSystem : Singleton<CardSystem>
 
             PerformEffectGA performEffectGA = new(effect, targets);
 
-            DelayedEffectSystem.Instance.AddEffect(performEffectGA);
+            //DelayedEffectSystem.Instance.AddEffect(performEffectGA);
+            if (effect.IsImmediate)
+            {
+                ActionSystem.Instance.AddReaction(performEffectGA);
+            }
+            else
+            {
+                DelayedEffectSystem.Instance.AddEffect(performEffectGA);
+            }
         }
     }
 
@@ -234,7 +247,7 @@ public class CardSystem : Singleton<CardSystem>
     //}
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {
-        DrawCardsGA drawCardsGA = new(5);
+        DrawCardsGA drawCardsGA = new(3);
         ActionSystem.Instance.AddReaction(drawCardsGA);
     }
 
@@ -265,4 +278,62 @@ public class CardSystem : Singleton<CardSystem>
             ActionSystem.Instance.AddReaction(effect);
         }
     }
+
+    //private IEnumerator RiskyDrawPerformer(RiskyDrawGA action)
+    //{
+    //    if (drawPile.Count == 0)
+    //    {
+    //        RefillDeck();
+    //    }
+
+    //    if (drawPile.Count == 0)
+    //    {
+    //        yield break;
+    //    }
+
+    //    Card card = drawPile.Draw();
+    //    hand.Add(card);
+
+    //    CardView cardView = CardViewCreator.Instance.CreateCardView(
+    //        card,
+    //        drawPilePoint.position,
+    //        drawPilePoint.rotation
+    //    );
+
+    //    yield return handView.AddCard(cardView);
+
+    //    ActionSystem.Instance.AddReaction(
+    //        new AddDrunkennessGA(card.Mana)
+    //    );
+    //}
+
+    private IEnumerator RiskyDrawPerformer(RiskyDrawGA action)
+    {
+        if (drawPile.Count == 0)
+        {
+            RefillDeck();
+        }
+
+        if (drawPile.Count == 0)
+        {
+            yield break;
+        }
+
+        Card card = drawPile.Draw();
+        hand.Add(card);
+
+        CardView cardView = CardViewCreator.Instance.CreateCardView(
+            card,
+            drawPilePoint.position,
+            drawPilePoint.rotation
+        );
+
+        yield return handView.AddCard(cardView);
+
+        // Automatically play the drawn card
+        PlayCardGA playCardGA = new(card, null);
+
+        ActionSystem.Instance.AddReaction(playCardGA);
+    }
+
 }

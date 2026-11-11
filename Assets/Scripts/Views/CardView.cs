@@ -172,8 +172,10 @@ public class CardView : MonoBehaviour
 
             if (target != null && CanPlayCard())
             {
+                //PlayCardGA playCardGA = new(Card, target);
+                //ActionSystem.Instance.Perform(playCardGA);
                 PlayCardGA playCardGA = new(Card, target);
-                ActionSystem.Instance.Perform(playCardGA);
+                PlayCard(playCardGA);
             }
             else
             {
@@ -189,8 +191,10 @@ public class CardView : MonoBehaviour
                 CanPlayCard()
                 && Physics.Raycast(ray, out RaycastHit hit, 100f, dropLayer))
             {
+                //PlayCardGA playCardGA = new(Card);
+                //ActionSystem.Instance.Perform(playCardGA);
                 PlayCardGA playCardGA = new(Card);
-                ActionSystem.Instance.Perform(playCardGA);
+                PlayCard(playCardGA);
             }
             else
             {
@@ -208,11 +212,26 @@ public class CardView : MonoBehaviour
     //    return ManaSystem.Instance.HasEnoughMana(Card.Mana)
     //        && MoneySystem.Instance.HasEnoughMoney(Card.MoneyCost);
     //}
+
+
+    private void PlayCard(PlayCardGA playCardGA)
+    {
+        ActionSystem.Instance.Perform(playCardGA, () =>
+        {
+            if (DrunkennessSystem.Instance.ShouldEndTurn)
+            {
+                DelayedEffectSystem.Instance.ClearEffects();
+                ActionSystem.Instance.Perform(new EnemyTurnGA());
+            }
+        });
+    }
+
+
     private bool CanPlayCard(CombatantView manualTarget = null)
     {
         int moneyCost = Card.GetMoneyCost(manualTarget);
 
-        return ManaSystem.Instance.HasEnoughMana(Card.Mana)
+        return !DrunkennessSystem.Instance.IsDrunk
             && MoneySystem.Instance.HasEnoughMoney(moneyCost);
     }
 }

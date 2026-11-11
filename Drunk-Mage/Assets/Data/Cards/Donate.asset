@@ -10,25 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5308a8fbd0aac854289f18b7ac163b14, type: 3}
-  m_Name: DealDelayedDamage
+  m_Name: Donate
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  <Description>k__BackingField: 
-  <Mana>k__BackingField: 0
-  <MoneyCost>k__BackingField: 0
+  <Description>k__BackingField: Donate 3 coins to target
+  <Mana>k__BackingField: 1
+  <MoneyCost>k__BackingField: 3
   <Image>k__BackingField: {fileID: 0}
   <ManualTargetEffect>k__BackingField:
-    rid: -2
-  <OtherEffects>k__BackingField:
-  - <TargetMode>k__BackingField:
-      rid: -2
-    <Effect>k__BackingField:
-      rid: 3739849608553300043
+    rid: 4887271308171673674
+  <OtherEffects>k__BackingField: []
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3739849608553300043
-      type: {class: DealHealthDamageEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4887271308171673674
+      type: {class: GiveMoneyEffect, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 3
+        amount: 3

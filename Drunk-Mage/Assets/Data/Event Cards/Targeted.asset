@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2bffc925a432a64e966a2fda3b1b35e, type: 3}
+  m_Name: Targeted
+  m_EditorClassIdentifier: Assembly-CSharp::EventCardData
+  <Title>k__BackingField: -2 wealth to random villager
+  <Description>k__BackingField: 
+  <ManualTargetEffect>k__BackingField:
+    rid: -2
+  <OtherEffects>k__BackingField:
+  - <TargetMode>k__BackingField:
+      rid: 4887271331913531468
+    <Effect>k__BackingField:
+      rid: 4887271331913531469
+  - <TargetMode>k__BackingField:
+      rid: 4887271331913531470
+    <Effect>k__BackingField:
+      rid: 4887271331913531471
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4887271331913531468
+      type: {class: RandomEnemyTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4887271331913531469
+      type: {class: AddWealthEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -2
+    - rid: 4887271331913531470
+      type: {class: RandomEnemyTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4887271331913531471
+      type: {class: AddReputationEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -2

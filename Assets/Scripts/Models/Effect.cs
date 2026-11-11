@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public abstract class Effect
 {
     public virtual bool RequiresTargets => true;
+    public virtual bool IsImmediate => false;
 
     public abstract GameAction GetGameAction(
         List<CombatantView> targets

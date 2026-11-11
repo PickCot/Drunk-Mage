@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemySystem : Singleton<EnemySystem>
 {
@@ -13,16 +14,31 @@ public class EnemySystem : Singleton<EnemySystem>
     [SerializeField] private Health playerHealth;
     [SerializeField] private int enemyAttackDamage = 3;
 
+    [SerializeField] private int enemyDefenseAmount = 3;
+
+    private EnemyIntent currentIntent = EnemyIntent.Attack;
+
+    [SerializeField] private TMP_Text enemyIntentText;
+    [SerializeField] private Shield playerShield;
+    [SerializeField] private Shield enemyShield;
+    private void Start()
+    {
+        ChooseNextIntent();
+    }
     void OnEnable()
     {
         ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);
         ActionSystem.AttachPerformer<KillEnemyGA>(KillEnemyPerformer);
+        ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.AttachPerformer<ResetPlayerShieldGA>(ResetPlayerShieldPerformer);
     }
 
     void OnDisable()
     {
         ActionSystem.DetachPerformer<EnemyTurnGA>();
         ActionSystem.DetachPerformer<KillEnemyGA>();
+        ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.POST);
+        ActionSystem.DetachPerformer<ResetPlayerShieldGA>();
     }
 
     public void Setup(List<EnemyData> enemyDatas)
@@ -44,6 +60,8 @@ public class EnemySystem : Singleton<EnemySystem>
 
         Debug.Log("Enemy Turn");
 
+        enemyShield.ResetShield();
+
         yield return new WaitForSeconds(2f);
 
         if (playerHealth == null)
@@ -52,12 +70,30 @@ public class EnemySystem : Singleton<EnemySystem>
             yield break;
         }
 
-        DealHealthDamageGA attack = new(
-            enemyAttackDamage,
-            playerHealth
-        );
+        //DealHealthDamageGA attack = new(
+        //    enemyAttackDamage,
+        //    playerHealth
+        //);
 
-        ActionSystem.Instance.AddReaction(attack);
+        //ActionSystem.Instance.AddReaction(attack);
+
+        switch (currentIntent)
+        {
+            case EnemyIntent.Attack:
+                ActionSystem.Instance.AddReaction(
+                    new DealHealthDamageGA(enemyAttackDamage, playerHealth)
+                );
+                break;
+
+            case EnemyIntent.Defend:
+                enemyShield.AddShield(enemyDefenseAmount);
+
+                Debug.Log(
+                    $"Boss gained {enemyDefenseAmount} shield. " +
+                    $"Total shield: {enemyShield.CurrentShield}"
+                );
+                break;
+        }
 
         Debug.Log("End Enemy Turn");
     }
@@ -73,5 +109,45 @@ public class EnemySystem : Singleton<EnemySystem>
         {
             GameManager.Instance.Lose();
         }
+    }
+
+
+
+    #region EnemyIntentions
+
+    private void ChooseNextIntent()
+    {
+        currentIntent = Random.Range(0, 2) % 2 == 0
+            ? EnemyIntent.Attack
+            : EnemyIntent.Defend;
+
+        UpdateEnemyIntent();
+    }
+
+    private void UpdateEnemyIntent()
+    {
+
+        switch (currentIntent)
+        {
+            case EnemyIntent.Attack:
+                enemyIntentText.text = $"Wil attack a hero for {enemyAttackDamage}."; ;
+                break;
+
+            case EnemyIntent.Defend:
+                enemyIntentText.text = $"Will defend himself for: {enemyDefenseAmount}";
+                break;
+        }
+    }
+    private void EnemyTurnPostReaction(EnemyTurnGA action)
+    {
+        ActionSystem.Instance.AddReaction(new ResetPlayerShieldGA());
+        ChooseNextIntent();
+    }
+    #endregion
+
+    private IEnumerator ResetPlayerShieldPerformer(ResetPlayerShieldGA action)
+    {
+        playerShield.ResetShield();
+        yield return null;
     }
 }
